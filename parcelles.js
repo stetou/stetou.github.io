@@ -68,7 +68,7 @@ var raster = new ol.layer.Tile({
        * Message to show when the user is drawing a polygon.
        * @type {string}
        */
-      var continuePolygonMsg = 'Click to continue drawing the polygon';
+      var continuePolygonMsg = 'Cliquer pour continer la parcelle. Double-click pour fermer le polygone';
 
 
       /**
@@ -87,7 +87,7 @@ var raster = new ol.layer.Tile({
           return;
         }
         /** @type {string} */
-        var helpMsg = 'Click to start drawing';
+        var helpMsg = 'Cliquer pour débuter la parcelle';
 
         if (sketch) {
           var geom = (sketch.getGeometry());
