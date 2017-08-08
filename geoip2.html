@@ -1,0 +1,68 @@
+
+
+<!doctype html>
+<html>
+ 
+  <head>
+    <title>Fictional Animal Shelters of the World</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="//js.maxmind.com/js/apis/geoip2/v2.1/geoip2.js"></script>
+    <script>
+		var redirect = (function () {
+			/* This implements the actual redirection. */
+			var redirectBrowser = function (site) {
+				var uri = "http://" + site + ".example.com/";
+				window.location = uri;
+			};
+		 
+			/* These are the country codes for the countries we have sites for.
+			 * We will check to see if a visitor is coming from one of these countries.
+			 * If they are, we redirect them to the country-specific site. If not, we
+			 * redirect them to world.example.com */
+			var sites = {
+				"de": true,
+				"fr": true,
+				"gb": true,
+				"us": true,
+				"ca" : true
+			};
+			var defaultSite = "world";
+		 
+			var onSuccess = function (geoipResponse) {
+				/* There's no guarantee that a successful response object
+				 * has any particular property, so we need to code defensively. */
+				if (!geoipResponse.country.iso_code) {
+					redirectBrowser("world");
+					return;
+				}
+		 
+				/* ISO country codes are in upper case. */
+				var code = geoipResponse.country.iso_code.toLowerCase();
+		 
+				if ( sites[code] ) {
+					redirectBrowser(code);
+				}
+				else {
+					redirectBrowser("world");
+				}
+			};
+		 
+			/* We don't really care what the error is, we'll send them
+			 * to the default site. */
+			var onError = function (error) {
+				redirectBrowser("world");
+			};
+		 
+			return function () {
+				geoip2.country( onSuccess, onError );
+			};
+		}());
+		 
+		redirect();
+    </script>
+  </head>
+ 
+  <body>
+
+  </body>
+</html>
